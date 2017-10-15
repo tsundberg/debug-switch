@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+dependencies {
+    testCompile "junit:junit:4.12"
+    testCompile 'org.assertj:assertj-core:3.8.0'
+}
+
+repositories {
+    jcenter()
+}
+
+shadowJar {
+    it.dependsOn jar
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    manifest {
+        attributes 'Main-Class': 'se.thinkcode.Main'
+    }
+}
+
+task stage() {
+    it.dependsOn check, shadowJar
+}
